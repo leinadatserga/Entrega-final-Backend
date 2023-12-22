@@ -1,0 +1,14 @@
+<h1>{{nombre}}</h1>
+    <form id="registerForm">
+        <label for="first_name">Nombre : </label><input type="text" name="first_name" placeholder="Nombre" required><br>
+        <label for="last_name">Apellido : </label><input type="text" name="last_name" placeholder="Apellido" required><br>
+        <label for="email">Email : </label><input type="email" name="email" placeholder="Correo electrónico" required><br>
+        <label for="password">Password : </label><input type="password" name="password" placeholder="Contraseña" required><br>
+        <label for="age">Edad : </label><input type="number" name="age" placeholder="Edad" required><br>
+        <button type="submit">Registrar</button>
+    </form>
+<div>
+    {{#each clientDats}}
+            <p> <b>{{this.first_name}}</b> - - {{this.last_name}} - - {{this.email}} - - edad: {{this.age}}</p>
+    {{/each}}
+</div>

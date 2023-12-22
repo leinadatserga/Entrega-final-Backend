@@ -1,0 +1,13 @@
+<h1>{{nombre}}</h1>
+
+{{#if prods}}
+{{#each prods}}
+<div>
+    <p> <b>{{this.title}}</b> - - {{this.description}} - - $ {{this.price}} + IVA</p>
+</div>
+{{/each}}
+{{else}}
+<p>{{"ghghghghgh"}}</p>
+{{/if}}
+
+

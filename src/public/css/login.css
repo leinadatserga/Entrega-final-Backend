@@ -1,0 +1,42 @@
+body {
+    background-color: aquamarine;
+    padding-left: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+h1 {
+    text-align: center;
+    font-size: 50px;
+    color: rgb(41, 2, 70);
+    margin-bottom: 50px;
+}
+#loginForm {
+    text-align: center;
+    margin: 5px;
+    font-size: 20px;
+    color: rgb(20, 54, 20);
+    background-color: rgb(159, 246, 218);
+}
+label {
+    line-height: 45px;
+    margin-right: 20px;
+    font-weight: bolder;
+}
+input {
+    padding: 6px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+button {
+    margin: 30px 0px 10px;
+    padding: 5px;
+    border: 2px solid;
+    border-color: blue;
+    border-radius: 6px;
+    background-color: coral;
+    font-size: 16px;
+    font-weight: bolder;
+}
+.footer {
+    position: absolute;
+    bottom: 15px;
+}

@@ -1,0 +1,29 @@
+body {
+    background-color: aquamarine;
+    padding-left: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.navbar {
+    text-align: center;
+}
+.navbar nav a {
+    font-size: 25px;
+    margin-inline: 10px;
+    color:black;
+    text-decoration: none;
+}
+h1 {
+    text-align: center;
+    font-size: 50px;
+    color: rgb(41, 2, 70);
+}
+p {
+    text-align: center;
+    font-size: 20px;
+    color: rgb(20, 54, 20);
+    background-color: rgb(159, 246, 218);
+}
+.footer {
+    position: absolute;
+    bottom: 15px;
+}
