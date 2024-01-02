@@ -3,6 +3,16 @@ body {
     padding-left: 20px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+.navbar {
+    text-align: center;
+}
+.navbar nav a {
+    font-size: 25px;
+    font-weight: bolder;
+    margin-inline: 40px;
+    color: darkblue;
+    text-decoration: none;
+}
 h1 {
     text-align: center;
     font-size: 50px;

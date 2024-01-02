@@ -18,7 +18,8 @@ export const homeView = async ( req, res ) => {
         res.render ( "home", {
             pageTitle: "Home",
             nombre: "E - Commerce",
-            pathCss: "style"
+            pathCss: "style",
+            pathJs: "home"
         });
     } catch ( error ) {
         return res.status ( 500 ).send ( `${ CustomError.InternalServerError ()}` );
@@ -31,6 +32,7 @@ export const productsView = async ( req, res ) => {
             pageTitle: "Products",
             nombre: "Products List",
             pathCss: "style",
+            pathJs: "home",
             prods: items
         });
     } catch ( error ) {
@@ -46,6 +48,46 @@ export const realTimeProdsView = async ( req, res ) => {
             productsList: items,
             pathCss: "realTimeProducts",
             pathJs: "realTimeProducts"
+        });
+    } catch ( error ) {
+        return res.status ( 500 ).send ( `${ error }` );
+    }
+};
+export const loginView = async ( req, res ) => {
+    const user = [{first_name: "Pocho", last_name: "LaPantera", email: "pochomiau@mail.com", age: 59 }];
+    try {
+    res.render ( "login", {
+        pageTitle: "Login",
+        nombre: "Ingreso de Usuario",
+        userDats: user,
+        pathCss: "login",
+        pathJs: "login"
+        });
+    } catch ( error ) {
+        return res.status ( 500 ).send ( `${ error }` );
+    }
+};
+export const registerView = async ( req, res ) => {
+    const user = [{first_name: "Pocho", last_name: "LaPantera", email: "pochomiau@mail.com", age: 59 }];
+    try {
+        res.render ( "register", {
+            pageTitle: "Register",
+            nombre: "Registro de Cliente",
+            clientDats: user,
+            pathCss: "register",
+            pathJs: "register"
+        });
+    } catch ( error ) {
+        return res.status ( 500 ).send ( `${ error }` );
+    }
+};
+export const messagesView = async ( req, res ) => {
+    try {
+        res.render ( "messages", {
+            pageTitle: "Messages",
+            nombre: "Envía tu consulta",
+            pathCss: "register",
+            pathJs: "messages"
         });
     } catch ( error ) {
         return res.status ( 500 ).send ( `${ error }` );

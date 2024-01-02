@@ -8,8 +8,9 @@ body {
 }
 .navbar nav a {
     font-size: 25px;
-    margin-inline: 10px;
-    color:black;
+    font-weight: bolder;
+    margin-inline: 40px;
+    color: darkblue;
     text-decoration: none;
 }
 h1 {

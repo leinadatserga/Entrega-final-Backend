@@ -11,7 +11,12 @@ const tokenLink = {};
 export const getUsers = async ( req, res ) => {
     try {
         const users = await userModel.find ();
-        return res.status ( 200 ).send ( users );
+        let usersFilt = [];
+        users.forEach ( element => {
+            const user = { first_name: element.first_name, last_name: element.last_name, email: element.email, rol: element.rol };
+            usersFilt.push ( user );
+        })
+        return res.status ( 200 ).send ( usersFilt );
     } catch ( error ) {
         logger.warning ( `[ ERROR ] [ ${ new Date ().toLocaleString () } ] Ha ocurrido un error: ${ error.message }` );
         return res.status ( 500 ).send ( `${ CustomError.InternalServerError ()}` );

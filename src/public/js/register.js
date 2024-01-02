@@ -1,5 +1,5 @@
-const socket = io ();
 import logger from "../../utils/logger";
+const socket = io ();
 
 
 const formReg = document.getElementById ( "registerForm" );
