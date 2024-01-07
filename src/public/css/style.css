@@ -1,7 +1,17 @@
+html {
+    height: 100%;
+}
 body {
+    margin: 0px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
     background-color: aquamarine;
     padding-left: 20px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.content {
+    flex: 1;
 }
 .navbar {
     text-align: center;
@@ -20,11 +30,50 @@ h1 {
 }
 p {
     text-align: center;
-    font-size: 20px;
+    font-size: 22px;
     color: rgb(20, 54, 20);
     background-color: rgb(159, 246, 218);
 }
+.ini > p {
+    font-weight: bolder;
+    text-align: center;
+    font-size: 30px;
+    color: rgb(20, 54, 20);
+    background-color: rgb(159, 246, 218);
+}
+.addToCart {
+    color: rgb(2, 2, 165);
+    padding: 5px;
+    margin-left: 15px;
+    background-color: lightgreen;
+    border-radius: 5px;
+}
+.purchase {
+    display: flex;
+    justify-content: center;
+}
+#finalizarCompra {
+    font-style: oblique;
+    margin-right: 15px;
+    color: rgb(2, 2, 165);
+    font-weight: bolder;
+    background-color: rgba(203, 255, 80, 0.589);
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+}
+#agregarProductos {
+    margin-left: 15px;
+    background-color: rgba(253, 115, 219, 0.486);
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+}
 .footer {
-    position: absolute;
-    bottom: 15px;
+    margin-top: 40px;
+    position: relative;
+    bottom: 20px;
+    width: 100%;
 }

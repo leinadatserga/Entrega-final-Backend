@@ -21,7 +21,7 @@ export const mailSender = ( email, link ) => {
         html:
             `
             <div>
-                <h1> Hola,buenos dias profe! </h1>
+                <h1> Hola, ¿Cómo estás ${ email }? </h1>
                 <button><a href="${ link }">Reset Password</a></button>
             </div>
             `

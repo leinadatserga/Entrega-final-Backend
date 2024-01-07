@@ -47,6 +47,5 @@ button {
     font-weight: bolder;
 }
 .footer {
-    position: absolute;
-    bottom: 15px;
+    margin-top: 40px;
 }

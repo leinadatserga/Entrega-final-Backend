@@ -33,7 +33,7 @@ export const getGithub = async ( req, res ) => {
 };
 export const getGithubSession = async ( req, res ) => {
     req.session.user = req.user;
-    return res.status ( 200 ).send ( req.user );
+    return res.status ( 200 ).send ({ message: "Active session" });
 };
 export const getLogOut = async ( req, res ) => {
     let userDat = {};
@@ -44,6 +44,6 @@ export const getLogOut = async ( req, res ) => {
         req.session.destroy ();
         return res.status ( 200 ).send ({ result: "Logout done successfully" });
     } else {
-        return res.status ( 400 ).send ({ result: "No session active" });
+        return res.status ( 400 ).send ({ result: "No active session" });
     }
 };

@@ -79,17 +79,17 @@ passport.use ( "github", new GithubStrategy ({
         logger.debug(accessToken);
         logger.debug(refreshToken);
         const user = await userModel.findOne ({ email: profile._json.email });
-        if ( user ) {
-            done ( null, false );
-        } else {
+        if ( !user ) {
             const newUser = await userModel.create ({
                 first_name: profile._json.name,
                 last_name: " ",
                 email: profile._json.email,
                 age: 18,
                 password: "password"
-            })
-            done ( null, newUser )
+            });
+            done ( null, newUser );
+        } else {
+            done ( null, user );
         } 
     } catch ( error ) {
        done ( error ) 

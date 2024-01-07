@@ -57,7 +57,7 @@ const userSchema = new Schema ({
     }
 });
 userSchema.pre ( "save", async function ( next ) {
-    if ( this.rol !== "admin" ) {
+    if ( this.rol !== "admin" && !this.cart ) {
         try {
             const newCart = await cartModel.create ({});
             this.cart = newCart._id;

@@ -1,10 +1,13 @@
 const socket = io ();
-let response = "User OK";
+let response;
 socket.on ( "conf", ( confirm ) => {
     if ( !confirm ) {
-        response = "User data error";
+        response = "User data error/unauthorized";
+    } else {
+        response = "User OK";
     }
-    socket.emit ( "response", response )
+    socket.emit ( "response", response );
+    response == "User OK" ? redirectToProducts () : redirectToLogin ();
 });
 const request = async ( userDat ) => {
     try {
@@ -15,11 +18,17 @@ const request = async ( userDat ) => {
             },
             body: JSON.stringify ( userDat )
         });
-        console.log("La miercoles!", reqLogin);
         return reqLogin.status;
-    } catch (error) {
-        console.log(error);
+    } catch ( error ) {
+        throw error;
     }
+};
+const redirectToLogin = () => {
+    window.location.href = "/static/login";
+};
+  
+const redirectToProducts = () => {
+    window.location.href = "/static/products";
 };
 const formLogin = document.getElementById ( "loginForm" );
 formLogin.addEventListener ( "submit", async ( e ) => {
@@ -28,8 +37,8 @@ formLogin.addEventListener ( "submit", async ( e ) => {
     const userData = Object.fromEntries ( formData );
     try {
         await request ( userData );
-    } catch (error) {
-        console.log(error);
+    } catch ( error ) {
+        throw ( error );
     };    
     socket.emit ( "newUser", userData );
     e.target.reset ();

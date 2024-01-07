@@ -13,7 +13,7 @@ export const getUsers = async ( req, res ) => {
         const users = await userModel.find ();
         let usersFilt = [];
         users.forEach ( element => {
-            const user = { first_name: element.first_name, last_name: element.last_name, email: element.email, rol: element.rol };
+            const user = { first_name: element.first_name, email: element.email, rol: element.rol };
             usersFilt.push ( user );
         })
         return res.status ( 200 ).send ( usersFilt );
@@ -66,7 +66,7 @@ export const sendRecoveryMail = async ( req, res ) => {
         if ( !user ) {
             res.status ( 400 ).send ( `${ CustomError.BadRequest ()}` );
         } else {
-            logger.debug ( "User finded!" );
+            logger.debug ( "User finded" );
         }
     try {
         const token = crypto.randomBytes ( 20 ).toString ( "hex" );
@@ -89,7 +89,7 @@ export const verifyRecoveryLink = async ( req, res ) => {
         if ( user.password == newPassword ) {
             res.status ( 400 ).send ( `${ CustomError.BadRequest ()}` );
         } else {
-            logger.debug ( "User finded!" );
+            logger.debug ( "User finded" );
         }
     try {
         if ( verifiedLink && ( Date.now () - verifiedLink.timestamp ) <= 3600000 ) {

@@ -1,18 +1,15 @@
 import CustomError from "../services/errors/CustomError.js";
 import prodModel from "../models/products.models.js";
+import logger from "../utils/logger.js";
 
-
-let items;
-async function getData() {
+let products;
+async function getProdsData () {
     try {
-        const datos = await prodModel.find ().lean ();;
-        items = datos
-    } catch (error) {
-        console.error('Error to get data:', error);
+        products = await prodModel.find ().lean ();
+    } catch ( error ) {
+        logger.error ( 'Error to get data:', error );
     }
-}
-
-
+};
 export const homeView = async ( req, res ) => {
     try {
         res.render ( "home", {
@@ -26,26 +23,26 @@ export const homeView = async ( req, res ) => {
     }
 };
 export const productsView = async ( req, res ) => {
-    await getData();
+    await getProdsData ();
     try {
         res.render ( "products", {
             pageTitle: "Products",
-            nombre: "Products List",
+            nombre: "Nuestros Productos",
             pathCss: "style",
-            pathJs: "home",
-            prods: items
+            pathJs: "products",
+            prods: products
         });
     } catch ( error ) {
         return res.status ( 500 ).send ( `${ error }` );
     }
 };
 export const realTimeProdsView = async ( req, res ) => {
-    await getData();
+    await getProdsData ();
     try {
         res.render ( "realTimeProducts", {
             pageTitle: "RealTimeProducts",
             nombre: "Ingreso de nuevo Producto",
-            productsList: items,
+            productsList: products,
             pathCss: "realTimeProducts",
             pathJs: "realTimeProducts"
         });
@@ -54,28 +51,12 @@ export const realTimeProdsView = async ( req, res ) => {
     }
 };
 export const loginView = async ( req, res ) => {
-    const user = [{first_name: "Pocho", last_name: "LaPantera", email: "pochomiau@mail.com", age: 59 }];
     try {
     res.render ( "login", {
         pageTitle: "Login",
         nombre: "Ingreso de Usuario",
-        userDats: user,
         pathCss: "login",
         pathJs: "login"
-        });
-    } catch ( error ) {
-        return res.status ( 500 ).send ( `${ error }` );
-    }
-};
-export const registerView = async ( req, res ) => {
-    const user = [{first_name: "Pocho", last_name: "LaPantera", email: "pochomiau@mail.com", age: 59 }];
-    try {
-        res.render ( "register", {
-            pageTitle: "Register",
-            nombre: "Registro de Cliente",
-            clientDats: user,
-            pathCss: "register",
-            pathJs: "register"
         });
     } catch ( error ) {
         return res.status ( 500 ).send ( `${ error }` );
@@ -93,3 +74,23 @@ export const messagesView = async ( req, res ) => {
         return res.status ( 500 ).send ( `${ error }` );
     }
 };
+export const purchaseView = async ( req, res ) => {
+    let user;
+    try {
+
+        if ( req.session && req.session.user ) {
+            const currentUser = req.session.user;
+            user = currentUser;
+        }
+        res.render ( "purchase", {
+            pageTitle: "Purchase",
+            nombre: "Confirmación de Compra y Pago",
+            user: user,
+            pathCss: "style",
+            pathJs: "purchase"
+        });
+    } catch ( error ) {
+        return res.status ( 500 ).send ( `${ error }` );
+    }
+};
+

@@ -82,17 +82,17 @@ export const putProdsCart = async ( req, res ) => {
     try {
         const cartFind = await cartModel.findById ( cid );
         const newCart = async ( cid, cartFind ) => await cartModel.findByIdAndUpdate ( cid, cartFind );
-        prods.forEach(element => {
-            let prodId = cartFind.products.findIndex ( prod => prod.id_prod == element.id_prod );
-            if ( prodId != -1 ) {
-                let quant = ( cartFind.products[prodId].quantity + element.quantity );
-                cartFind.products[prodId].quantity = quant;
-                newCart ( cid, cartFind );
-            } else {
+        let prodId;
+        prods.forEach ( element => {
+            prodId = cartFind.products.find ( prod => prod.id_prod == element.id_prod );
+            if ( prodId == undefined ) {
                 cartFind.products.push ( element );
-                newCart ( cid, cartFind );
+            } else {
+                let quant = ( prodId.quantity + element.quantity );
+                prodId.quantity = quant;
             }
         });
+        newCart ( cid, cartFind );
         return res.status ( 200 ).send ( cartFind );
     } catch (error) {
         return res.status ( 500 ).send ( `${ CustomError.InternalServerError ()}` );

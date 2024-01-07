@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express, { json, request } from 'express';
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { engine } from 'express-handlebars';
@@ -17,6 +17,8 @@ import initializePassport from "./config/passport.js";
 import router from "./routes/api.routes.js";
 import routerViews from "./routes/static.routes.js";
 import prodModel from "./models/products.models.js";
+import userModel from './models/users.models.js';
+import ticketModel from './models/ticket.models.js';
 
 const whiteList = [ "http://localhost:8080", "http://localhost:3000", "http://localhost:4000" ];
 const corsOptions = {
@@ -39,7 +41,7 @@ app.use ( session ({
     store: MongoStore.create ({
         mongoUrl: config.mongoURL,
         mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-        ttl: 90
+        ttl: 9000
     }),
     secret: config.privateSession,
     resave: true,
@@ -48,19 +50,29 @@ app.use ( session ({
 );
 app.use ( passport.initialize ());
 app.use ( passport.session ());
+
 mongoose.connect ( config.mongoURL )
 .then ( async () => {
     logger.http ( `DB connected` )
 })
 .catch (( error ) => logger.error ( `Failed to connect to MongoDB Atlas: ${ error }` ));
-const mailMessages = [];
 let prods;
+let userCart;
+let status = false
+app.use (( req, res, next ) => {
+    req.isLogged = req.isAuthenticated ();
+    status = req.isLogged;
+    next ();
+});;
 const server = app.listen ( PORT, HOST, () => {
     logger.http ( `Server host: ${ HOST } / port: ${ PORT }` );
     logger.http ( `[ SYSTEM INFORMATION: ] [ ${ new Date ().toLocaleString () } ] Server initiated in ${ config.environment } environment mode.` );
 });
 const io = new Server ( server );
+let userMail;
+let userTicket;
 io.on ( "connection", async ( socket ) => {
+    
     const products = JSON.stringify ( await prodModel.find ());
     prods = JSON.parse ( products );
     logger.http ( `Socket.io connection` );
@@ -69,34 +81,54 @@ io.on ( "connection", async ( socket ) => {
         prods = JSON.parse ( products );
     });
     socket.emit ( "reload", true );
-    socket.on ( "newUser", ( userData ) => {
-        console.log(JSON.stringify(userData));
-        if ( userData ) {
-            socket.emit ( "conf", userData );
+
+    socket.on ( "newUser", async ( userData ) => {
+        userMail = userData.email;
+        try {
+            const data = await user ( userMail );
+            if ( userData ) {
+                userCart = data.cart;
+                socket.emit ( "conf", data );
+            }
+        } catch ( error ) {
+            logger.error ( "Error fetching user data:", error );
         }
         socket.on ( "response", ( response ) => {
-            console.log(response);
-        })
-    })
-    socket.on ( "newCient", ( clientData ) => {
-        console.log(clientData);
-    })
-    socket.on ( "message", mailMessageContent => {
-        messageModel.create( mailMessageContent );
-        mailMessages.push ( mailMessageContent );
-        io.emit ( "showMessages", mailMessages )
-    })
+            logger.debug ( response );
+        });
+    });
+    socket.emit ( "sessionStatus",  status, userCart );
+    socket.emit ( "purchase", userCart );
+    const ticket = async ( userEmail ) => {
+        const usrTicket = await ticketModel.findOne ({ purchaser: userEmail });
+        return usrTicket;
+    };
+    socket.on ( "orderConf", async () => {
+        try {
+            const userTicket = await ticket ( userMail );
+            socket.emit ( "purchaseResult", userTicket );
+        } catch ( error ) {
+            logger.error ( "Error getting user ticket:", error );
+        }
+    });
+ 
 });
-io.on("error", (error) => {
-    console.error("Socket.io error:", error);
+io.on ( "error", ( error ) => {
+    logger.error ( "Socket.io error:", error );
 });
 initializePassport ();
 app.engine ( "handlebars", engine ());
 app.set ( "view engine", "handlebars" );
 app.set ( "views", path.resolve ( __dirname, "./views" ));
-
-
-
+const user = async ( mail ) => {
+    try {
+        const userDat = await userModel.findOne ({ email: mail });
+        userCart = userDat
+        return userDat.rol == "admin"? false :  userDat;
+    } catch ( error ) {
+        logger.error ( error );
+    }
+};
 const swaggerOptions = {
     definition: {
         openapi: "3.0.1",

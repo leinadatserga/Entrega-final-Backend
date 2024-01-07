@@ -1,11 +1,13 @@
-<h1>{{nombre}}</h1>
-    <form id="loginForm">
-        <label for="email">Email : </label><input id="email" type="email" name="email" placeholder="Correo electrónico" required><br>
-        <label for="password">Password : </label><input id="password" type="password" name="password" placeholder="Contraseña" required><br>
-        <button type="submit">Ingresar</button>
-    </form>
-<div>
-    {{#each userDats}}
-            <p> <b>{{this.first_name}}</b> - - {{this.last_name}} - - {{this.email}} - - edad: {{this.age}}</p>
-    {{/each}}
+<div class="content">
+    <h1>{{nombre}}</h1>
+        <form id="loginForm">
+            <label for="email">Email : </label><input id="email" type="email" name="email" placeholder="Correo electrónico" autocomplete="user-email" required><br>
+            <label for="password">Password : </label><input id="password" type="password" name="password" placeholder="Contraseña" autocomplete="current-password" required><br>
+            <button type="submit">Ingresar</button>
+        </form>
+    <div>
+        {{#each userDats}}
+                <p> <b>{{this.email}}</b> - - {{this.password}}</p>
+        {{/each}}
+    </div>
 </div>
